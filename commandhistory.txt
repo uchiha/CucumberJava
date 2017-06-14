@@ -1,0 +1,23 @@
+#1 java -cp "jars/*" cucumber.api.cli.Main -p pretty .
+
+### Tell cucumber where to get the features:
+java -cp "jars/*" cucumber.api.cli.Main -p pretty features
+
+### Tell cucumber that we dont want snake case, but camelcase!
+java -cp "jars/*" cucumber.api.cli.Main -p pretty --snippets camelcase features
+
+### compile CheckoutSteps first
+### added current directory "." to classpath (argument to -cp)
+### We’ve added the -g step_definitions command-line argument to tell Cucumber
+### where to look for the step definitions that it will need to “glue” the steps
+### in the feature file to the checkout application (which we haven’t written yet).
+javac -cp "jars/*" step_definitions/CheckoutSteps.java
+java -cp "jars/*;." cucumber.api.cli.Main -p pretty --snippets camelcase -g step_definitions features
+
+### using the progress plugin, notice instead of "pretty" we have "progress"
+javac -cp "jars/*" step_definitions/CheckoutSteps.java
+java -cp "jars/*;." cucumber.api.cli.Main -p progress --snippets camelcase -g step_definitions features
+
+### compile multiple java files
+javac -cp "jars/*" step_definitions/CheckoutSteps.java \
+                   implementation/Checkout.java
